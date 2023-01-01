@@ -81,13 +81,27 @@ class WordMaker
     # retval = "A #{generate_genre} game about a #{prompt_text}\n\n"
     # retval << "Definitions \n- Noun: #{prompt[:noun_def]}\n- Adjective: #{prompt[:adj_def]}]\n- Verb: #{prompt[:verb_def]}"
     # retval
-    {genre: generate_genre, prompt_text:, defs: {noun_def: prompt[:noun_def], adjective_def: prompt[:adj_def], verb_def: prompt[:verb_def]}}
+    {
+      genre: generate_genre,
+      prompt_text:,
+      noun: prompt[:noun],
+      adj: prompt[:adj],
+      verb: prompt[:verb],
+      defs: {
+        noun_def: prompt[:noun_def],
+        adjective_def: prompt[:adj_def],
+        verb_def: prompt[:verb_def]
+      }
+    }
   end
 end
 
 get '/' do
   w = WordMaker.new
   @prompt = w.generate_game_idea
+  @prompt_noun = @prompt[:noun]
+  @prompt_adj = @prompt[:adj]
+  @prompt_verb = @prompt[:verb]
   prompt_title_first,*prompt_title_rest = @prompt[:genre].split(" ")
   prompt_text_first,*prompt_text_rest = @prompt[:prompt_text].split(" ")
   @prompt_title = "#{prompt_title_first.en.an} #{prompt_title_rest.join(" ")}"

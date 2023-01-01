@@ -1,14 +1,43 @@
 <html>
-    <head><title>Game Idea!</title></head>
+    <head>
+        <title>Bad Game Idea!</title>
+        <style>
+            /* CSS HEX */
+            :root {
+                --black-coffee: #3a3335ff;
+                --ruby: #d81e5bff;
+                --tart-orange: #f0544fff;
+                --papaya-whip: #fdf0d5ff;
+                --opal: #c6d8d3ff;
+            }
+            body {
+                background-color: var(--opal);
+                color: var(--black-coffee);
+            }
+            .noun {
+                background-color: var(--black-coffee);
+                color: var(--papaya-whip)
+            }
+
+            .adjective {
+                background-color: var(--ruby);
+            }
+
+            .verb {
+                background-color: var(--tart-orange);
+            }
+        </style>
+    </head>
     <body>
 
-      <h1>Game idea</h1>
-      <h2><%= @prompt_title.capitalize %> about <%= @prompt_text %></h2>
+      <h1>A bad game idea:</h1>
+        
+      <h2><%= @prompt_title.capitalize %> about <span class="adjective"><%= @prompt[:adj].en.an %></span> <span class="noun"><%= @prompt[:noun] %></span> that can <span class="verb"><%= @prompt[:verb] %></span></h2>
 
       <h3>Definitions</h3>
       <ul>
         <% @prompt[:defs].each do |key,value| %>
-          <li><b><%= key.to_s.split('_').first.capitalize %>:</b> - <%= value %></li>
+            <li><b><%= key.to_s.split('_').first.capitalize %>:</b> - <span class="<%= key.to_s.split('_').first %>"><%= value %></span></li>
         <% end %>
       </ul>
 
