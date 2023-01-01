@@ -1,0 +1,117 @@
+{
+	"Genre": [
+		{
+			"name": "Action",
+			"subgenres": [
+				"Platform",
+				"Shooter",
+				"Fighting",
+				"Beat 'em up",
+				"Stealth",
+				"Survival",
+				"Rhythm",
+				"Battle Royales"
+			]
+		},
+		{
+			"name": "Action-adventure",
+			"subgenres": [
+				"Survival horror",
+				"Metroidvania",
+				"Adventure",
+				"Text adventure",
+				"Graphic adventure",
+				"Visual novel",
+				"Interactive movie",
+				"Real-time 3D adventures"
+			]
+		},
+		{
+			"name": "Puzzle",
+			"subgenres": [
+				"Breakout clone",
+				"Logical",
+				"Physics",
+				"Coding",
+				"Trial-and-error / Exploration",
+				"Hidden object",
+				"Reveal the picture",
+				"Tile-matching",
+				"Traditional puzzle",
+				"Puzzle-platform"
+			]
+		},
+		{
+			"name": "Role-playing",
+			"subgenres": [
+				"Action RPG",
+				"MMORPG",
+				"Roguelike",
+				"Tactical RPG",
+				"Sandbox RPG",
+				"First-person party-based RPG",
+				"Monster Tamer"
+			]
+		},
+		{
+			"name": "Simulation",
+			"subgenres": [
+				"Construction and management simulation",
+				"Life simulation",
+				"Vehicle simulation"
+			]
+		},
+		{
+			"name": "Strategy",
+			"subgenres": [
+				"4X",
+				"Artillery",
+				"Auto battler (Auto chess)",
+				"Multiplayer online battle arena (MOBA) / Action RTS (ARTS)",
+				"Real-time strategy (RTS)",
+				"Real-time tactics (RTT)",
+				"Tower defense",
+				"Turn-based strategy (TBS)",
+				"Turn-based tactics (TBT)",
+				"Wargame",
+				"Grand strategy wargame"
+			]
+		},
+		{
+			"name": "Sport",
+			"subgenres": [
+				"Racing",
+				"Sports",
+				"Competitive",
+				"Sports-based fighting"
+			]
+		},
+		{
+			"name": "MMO",
+			"subgenres": [
+				"Board or card",
+				"Casino",
+				"Casual",
+				"Digital collectible card",
+				"Gacha",
+				"Horror",
+				"Idle",
+				"Logic",
+				"Party",
+				"Photography",
+				"Programming",
+				"Social deduction",
+				"Trivia",
+				"Typing"
+			]
+		},
+		{
+			"name": "Sandbox / open world",
+			"subgenres": [
+				"Sandbox",
+				"Creative",
+				"Open world"
+			]
+		}
+	]
+}

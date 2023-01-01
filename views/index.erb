@@ -1,0 +1,16 @@
+<html>
+    <head><title>Game Idea!</title></head>
+    <body>
+
+      <h1>Game idea</h1>
+      <h2><%= @prompt_title.capitalize %> about <%= @prompt_text %></h2>
+
+      <h3>Definitions</h3>
+      <ul>
+        <% @prompt[:defs].each do |key,value| %>
+          <li><b><%= key.to_s.split('_').first.capitalize %>:</b> - <%= value %></li>
+        <% end %>
+      </ul>
+
+    </body>
+  </html>
