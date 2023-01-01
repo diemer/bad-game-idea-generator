@@ -23,7 +23,6 @@ class WordMaker
     data_hash.each do |word, meta|
       noun_def = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'noun' }&.first&.dig('definition')
       noun_type = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'noun' }&.first&.dig('typeOf')
-      puts noun_type unless noun_type.nil?
       adjective_def = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'adjective' }&.first&.dig('definition')
       verb_def = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'verb' }&.first&.dig('definition')
       verb_type = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'verb' }&.first&.dig('typeOf')
@@ -49,11 +48,11 @@ class WordMaker
     noun = random_noun[0]
     random_adjective = random_adjectives.first
     adjective = random_adjective[0]
-    puts "fullnoun: #{random_nouns.first}"
-    puts "noun: #{noun}"
-    puts "fulladj: #{random_adjectives.first}"
-    puts "adj: #{adjective}"
-    puts "fullverb: #{random_verbs.first}"
+    # puts "fullnoun: #{random_nouns.first}"
+    # puts "noun: #{noun}"
+    # puts "fulladj: #{random_adjectives.first}"
+    # puts "adj: #{adjective}"
+    # puts "fullverb: #{random_verbs.first}"
     # puts "verb: #{verb}"
     # puts Verbs::Conjugator.conjugate verb, person: :first, aspect: :habitual, subject: "#{adjective} #{noun}"
     # puts Verbs::Conjugator.conjugate verb, person: :first, aspect: :perfect, subject: "#{adjective} #{noun}"
