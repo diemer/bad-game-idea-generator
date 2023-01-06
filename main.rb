@@ -6,15 +6,20 @@ require 'json'
 require 'sinatra'
 require 'linguistics'
 
-Linguistics.use( :en )
+Linguistics.use(:en)
 class WordMaker
-  attr_accessor :nouns, :adjectives, :verbs, :genres
+  attr_accessor :nouns, :adjectives, :verbs, :genres, :random
 
-  def initialize
+  def initialize(seed = nil)
     file = File.read('./sample.json')
     genre_file = File.read('./game-genres.json')
     data_hash = JSON.parse(file)
     genre_hash = JSON.parse(genre_file)
+    @random = if seed
+                Random.new(seed.to_i)
+              else
+                Random.new
+              end
 
     @genres = {}
     @nouns = {}
@@ -27,8 +32,8 @@ class WordMaker
       verb_def = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'verb' }&.first&.dig('definition')
       verb_type = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'verb' }&.first&.dig('typeOf')
       verb_category = meta.dig('definitions')&.filter { |d| d['partOfSpeech'] == 'verb' }&.first&.dig('inCategory')
-      @nouns[word] = { noun_def: noun_def, noun_type: noun_type } unless noun_def.nil?
-      @verbs[word] = { verb_def: verb_def, verb_type: verb_type, verb_category: verb_category } unless verb_def.nil?
+      @nouns[word] = { noun_def:, noun_type: } unless noun_def.nil?
+      @verbs[word] = { verb_def:, verb_type:, verb_category: } unless verb_def.nil?
       @adjectives[word] = adjective_def unless adjective_def.nil?
     end
 
@@ -38,9 +43,9 @@ class WordMaker
   end
 
   def generate_prompt(adjective_count = 2, noun_count = 2, verb_count = 1)
-    random_nouns = @nouns.to_a.sample(noun_count)
-    random_adjectives = @adjectives.to_a.sample(adjective_count)
-    random_verbs = @verbs.to_a.sample(verb_count)
+    random_nouns = @nouns.to_a.sample(noun_count, random: @random)
+    random_adjectives = @adjectives.to_a.sample(adjective_count, random: @random)
+    random_verbs = @verbs.to_a.sample(verb_count, random: @random)
     # puts "#{random_adjectives.first[0]} #{random_nouns.first[0]} #{random_verbs.first[0]}"
     random_verb = random_verbs.first
     verb = random_verb[0]
@@ -64,15 +69,17 @@ class WordMaker
     # puts Verbs::Conjugator.conjugate verb, person: :first, aspect: :progressive, mood: :subjunctive,
     #                                        subject: "#{adjective} #{noun}"
     # "#{adjective} #{noun} that can #{verb}"
-    {noun:, noun_def: random_noun[1][:noun_def], adj: adjective, adj_def: random_adjective[1], verb:, verb_def: random_verb[1][:verb_def]}
+    { noun:, noun_def: random_noun[1][:noun_def], adj: adjective, adj_def: random_adjective[1], verb:,
+      verb_def: random_verb[1][:verb_def] }
   end
 
   def generate_genre
-    random_genre = @genres['Genre'].sample
-    random_subgenre = random_genre['subgenres'].sample
+    random_genre = @genres['Genre'].sample(1, random: @random).first
+    random_subgenre = random_genre['subgenres'].sample(1, random: @random).first
     "#{random_genre['name']} - #{random_subgenre}"
   end
 
+  # 93288931694174127385818610690008931196
   def generate_game_idea
     prompt = generate_prompt
 
@@ -96,16 +103,18 @@ class WordMaker
 end
 
 get '/' do
-  w = WordMaker.new
+  w = WordMaker.new(params['seed'])
   @prompt = w.generate_game_idea
   @prompt_noun = @prompt[:noun]
   @prompt_adj = @prompt[:adj]
   @prompt_verb = @prompt[:verb]
-  prompt_title_first,*prompt_title_rest = @prompt[:genre].split(" ")
-  prompt_text_first,*prompt_text_rest = @prompt[:prompt_text].split(" ")
-  @prompt_title = "#{prompt_title_first.en.an} #{prompt_title_rest.join(" ")}"
-  @prompt_text = "#{prompt_text_first.en.an} #{prompt_text_rest.join(" ")}"
-  @prompt_title << " game" unless prompt_text_rest.last.include? "game"
-  erb :index, locals: {prompt: @prompt}
+  prompt_title_first, *prompt_title_rest = @prompt[:genre].split(' ')
+  prompt_text_first, *prompt_text_rest = @prompt[:prompt_text].split(' ')
+  @prompt_title = "#{prompt_title_first.en.an} #{prompt_title_rest.join(' ')}"
+  @prompt_text = "#{prompt_text_first.en.an} #{prompt_text_rest.join(' ')}"
+  @prompt_title << ' game' unless prompt_text_rest.last.include? 'game'
+  @seed = w.random.seed
+  @host = "#{request.scheme}://#{request.host}"
+  puts @seed
+  erb :index, locals: { prompt: @prompt }
 end
-
