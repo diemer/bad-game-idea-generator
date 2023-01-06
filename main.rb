@@ -115,6 +115,7 @@ get '/' do
   @prompt_title << ' game' unless prompt_text_rest.last.include? 'game'
   @seed = w.random.seed
   @host = "#{request.scheme}://#{request.host}"
+  @host += ":#{request.port}" unless request.port.nil?
   puts @seed
   erb :index, locals: { prompt: @prompt }
 end
